@@ -1,7 +1,3 @@
-![WhatsApp Image 2025-06-25 at 20 50 18_f5ca9e4d](https://github.com/user-attachments/assets/edb7711d-d1cc-4859-9dc9-19c4df0842ab)Absolutely! Here is a **highly professional, detailed, and visually engaging `README.md`** template for your DNB Pay System project.  
-This README is designed to impress recruiters, collaborators, and future maintainers.  
-You can further enhance it with animated GIFs/screenshots if you wish (see notes below).
-
 # 🚀 DNB Pay System – Modern Attendance & Payroll Management
 
 
@@ -43,6 +39,8 @@ It replaces legacy systems with a user-friendly, role-based platform that automa
 
 - Login Page
 ![WhatsApp Image 2025-06-25 at 20 46 55_d8474547](https://github.com/user-attachments/assets/4c200536-595a-45b5-957c-b33694fbb834)
+
+-----------------------------
 
 
 - Superuser Dashboard

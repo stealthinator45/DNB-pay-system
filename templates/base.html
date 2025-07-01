@@ -1,0 +1,154 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DNB Pay System - {% block title %}{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+    <link rel="icon" href="{% static 'SAIL_Logo.png' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <style>
+        html, body, .card, .modal-content { transition: background-color 0.3s, color 0.3s; }
+
+        /* Enhanced Custom Navbar */
+        .custom-navbar {
+            background: linear-gradient(90deg, #181a2f 0%, #0056b3 100%);
+            box-shadow: 0 2px 16px 0 #00c6ff33;
+            border-radius: 0 0 1.4rem 1.4rem;
+            position: sticky;
+            top: 0;
+            z-index: 20;
+        }
+        .custom-tabs .custom-tab {
+            font-weight: 600;
+            font-size: 1.08em;
+            letter-spacing: 0.7px;
+            color: #fff;
+            margin: 0 0.2rem;
+            padding: 0.6rem 1.3rem;
+            border-radius: 1.3rem;
+            background: transparent;
+            transition: background 0.23s, color 0.23s, box-shadow 0.23s;
+            position: relative;
+            box-shadow: 0 0 0 transparent;
+        }
+        .custom-tabs .custom-tab.active,
+        .custom-tabs .custom-tab:hover {
+            color: #fff;
+            background: linear-gradient(90deg, #00c6ff 0%, #007bff 100%);
+            box-shadow: 0 4px 24px #00c6ff22;
+            text-shadow: 0 2px 8px #00c6ff55;
+        }
+        .custom-tabs .custom-tab.active::after,
+        .custom-tabs .custom-tab:hover::after {
+            content: "";
+            display: block;
+            margin: 0 auto;
+            width: 70%;
+            height: 3px;
+            border-radius: 2px;
+            background: #ffd700;
+            margin-top: 6px;
+            animation: tab-underline 0.4s cubic-bezier(.4,1.5,.5,1) both;
+        }
+        @keyframes tab-underline {
+            from { width: 0; opacity: 0; }
+            to { width: 70%; opacity: 1; }
+        }
+        .custom-tabs .custom-tab i {
+            margin-right: 0.5em;
+            font-size: 1.1em;
+            vertical-align: middle;
+        }
+        .btn-theme-toggle { border: none; background: none; font-size: 1.4rem; color: #fff; }
+        .btn-theme-toggle:focus { outline: none; }
+        .navbar-brand { font-weight: 700; letter-spacing: 1px; }
+    </style>
+</head>
+<body>
+    {% block navbar %}
+    <nav class="navbar navbar-expand-lg custom-navbar py-2">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <img src="{% static 'SAIL_Logo.png' %}" alt="SAIL Logo" height="38" class="me-2">
+                DNB Pay System
+            </a>
+            {% if user.is_authenticated %}
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav custom-tabs me-auto mb-2 mb-lg-0">
+                    {% if user_role == 'SUPER' or user_role == 'ADMIN' or user_role == 'DNB' or user_role == 'CONTRACTUAL' or user_role == 'CSR' %}
+                        <li class="nav-item">
+                            <a class="nav-link custom-tab {% if active_tab == 'master' %}active{% endif %}" href="{% url 'master' %}">
+                                <i class="fas fa-users me-1"></i>Employee Master
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if user_role == 'SUPER' or user_role == 'ADMIN' %}
+                        <li class="nav-item">
+                            <a class="nav-link custom-tab {% if active_tab == 'user_admin' %}active{% endif %}" href="{% url 'user_admin' %}">
+                                <i class="fas fa-user-shield me-1"></i>User Admin
+                            </a>
+                        </li>
+                    {% endif %}
+                    <li class="nav-item"><a class="nav-link custom-tab {% if active_tab == 'attendance' %}active{% endif %}" href="{% url 'attendance' %}"><i class="fas fa-calendar-check me-1"></i>Attendance</a></li>
+                    <li class="nav-item"><a class="nav-link custom-tab {% if active_tab == 'adjustments' %}active{% endif %}" href="{% url 'adjustments' %}"><i class="fas fa-sliders-h me-1"></i>Adjustments</a></li>
+                    <li class="nav-item"><a class="nav-link custom-tab {% if active_tab == 'processing' %}active{% endif %}" href="{% url 'processing' %}"><i class="fas fa-cogs me-1"></i>Processing</a></li>
+                    <li class="nav-item"><a class="nav-link custom-tab {% if active_tab == 'reports' %}active{% endif %}" href="{% url 'reports' %}"><i class="fas fa-chart-bar me-1"></i>Reports</a></li>
+                    <li class="nav-item"><a class="nav-link custom-tab {% if active_tab == 'enquiry' %}active{% endif %}" href="{% url 'enquiry' %}"><i class="fas fa-search me-1"></i>Enquiry</a></li>
+                    <li class="nav-item"><a class="nav-link custom-tab {% if active_tab == 'checklist' %}active{% endif %}" href="{% url 'checklist' %}"><i class="fas fa-list-check me-1"></i>Checklist</a></li>
+                </ul>
+                <div class="d-flex align-items-center gap-2">
+                    <button class="btn btn-theme-toggle" id="themeToggle" title="Toggle dark/light mode">
+                        <i class="fas fa-moon" id="themeIcon"></i>
+                    </button>
+                    <a href="{% url 'logout' %}" class="btn btn-danger btn-sm ms-1">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </nav>
+    {% endblock %}
+
+    <div class="container py-4">
+        {% block content %}{% endblock %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script>
+        // Theme initialization and toggle
+        function setTheme(theme) {
+            document.documentElement.setAttribute('data-bs-theme', theme);
+            localStorage.setItem('theme', theme);
+            const icon = document.getElementById('themeIcon');
+            if (theme === 'dark') {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        }
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        setTheme(savedTheme);
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('themeToggle').addEventListener('click', function() {
+                const currentTheme = document.documentElement.getAttribute('data-bs-theme');
+                setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+            });
+        });
+    </script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

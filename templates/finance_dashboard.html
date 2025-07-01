@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Finance Dashboard{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <h2 class="mb-4"><i class="fas fa-chart-line me-2 text-primary"></i>Finance Dashboard</h2>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card dashboard-widget widget-info">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-wallet me-2"></i>Total Payroll Processed</h5>
+                    <p class="card-text fs-4">₹ {{ total_payroll|default:"0" }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card dashboard-widget widget-success">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-coins me-2"></i>Pending Payments</h5>
+                    <p class="card-text fs-4">{{ pending_payments|default:"0" }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card dashboard-widget bg-gradient-primary">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-file-invoice-dollar me-2"></i>Recent Transactions</h5>
+                    <ul class="list-unstyled mb-0">
+                        {% for tx in recent_transactions %}
+                            <li>
+                                <strong>{{ tx.employee.name }}</strong>
+                                <span class="text-muted">({{ tx.yymm }})</span>
+                                – ₹{{ tx.npay|floatformat:0 }}
+                            </li>
+                        {% empty %}
+                            <li class="text-muted">No recent transactions</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr class="my-4">
+    <h5>Recent Activity</h5>
+    <ul class="list-group">
+        {% for tx in recent_activity %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ tx.description }}
+                <span class="badge bg-primary rounded-pill">{{ tx.amount }}</span>
+            </li>
+        {% empty %}
+            <li class="list-group-item">No recent activity.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

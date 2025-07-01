@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    {% if user_role in 'SUPER,ADMIN,FIN,HR' %}
+        <h2>All Attendance Records</h2>
+        <table class="table">
+            <!-- Show all records -->
+        </table>
+    {% else %}
+        <h2>Your Attendance</h2>
+        <table class="table">
+            <!-- Show only current user's records -->
+        </table>
+    {% endif %}
+</div>
+{% endblock %}

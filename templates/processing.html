@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Payroll Processing{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Payroll Processing</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Employees</h5>
+                    <ul class="list-group">
+                        {% for employee in employees %}
+                        <li class="list-group-item">
+                            <strong>{{ employee.name }}</strong> (ID: {{ employee.emp_id }})<br>
+                            Category: {{ employee.catg_desc }}<br>
+                            Stipend: ₹{{ employee.stipend_rate }}
+                        </li>
+                        {% empty %}
+                        <li class="list-group-item text-muted">No employees found.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h5>Current Month Pay Bills</h5>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Employee</th>
+                                <th>Net Pay</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for pay in pay_bills %}
+                            <tr>
+                                <td>{{ pay.employee.name }} (ID: {{ pay.employee.emp_id }})</td>
+                                <td>₹{{ pay.npay }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="2" class="text-muted text-center">No pay bills for this month.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

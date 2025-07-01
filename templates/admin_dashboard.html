@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<style>
+/* Animated blue gradient background */
+.animated-bg {
+    min-height: 100vh;
+    width: 100vw;
+    position: fixed;
+    top: 0; left: 0;
+    z-index: -1;
+    background: linear-gradient(-45deg, #1e3c72, #2a5298, #6dd5ed, #2193b0);
+    background-size: 400% 400%;
+    animation: gradientBG 10s ease infinite;
+}
+@keyframes gradientBG {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+}
+.dashboard-card {
+    background: rgba(255,255,255,0.90);
+    border-radius: 2rem;
+    box-shadow: 0 8px 32px 0 rgba(31,38,135,0.37);
+    backdrop-filter: blur(6.5px);
+    border: 1px solid rgba(255,255,255,0.18);
+    padding: 2.5rem 2rem;
+    margin-top: 8vh;
+    text-align: center;
+}
+.dashboard-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #1e3c72;
+    letter-spacing: 1px;
+    margin-bottom: 1.2rem;
+}
+.dashboard-welcome {
+    font-size: 1.3rem;
+    color: #2a5298;
+    margin-bottom: 2rem;
+    font-weight: 600;
+}
+.employee-count-card {
+    display: inline-block;
+    padding: 2rem 3.5rem;
+    border-radius: 1.5rem;
+    background: linear-gradient(135deg, #2193b0 0%, #6dd5ed 100%);
+    color: #fff;
+    font-size: 2.8rem;
+    font-weight: bold;
+    box-shadow: 0 4px 24px rgba(33,147,176,0.18);
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    letter-spacing: 2px;
+    animation: pulse 2s infinite;
+}
+@keyframes pulse {
+    0% { box-shadow: 0 4px 24px rgba(33,147,176,0.18);}
+    50% { box-shadow: 0 8px 32px rgba(33,147,176,0.28);}
+    100% { box-shadow: 0 4px 24px rgba(33,147,176,0.18);}
+}
+</style>
+<div class="animated-bg"></div>
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="dashboard-card w-100">
+        <div class="dashboard-title">
+            Welcome, {{ user.get_full_name|default:user.username }}!
+        </div>
+        <div class="dashboard-welcome">
+            You are logged in as <span class="badge bg-primary px-3 py-2" style="font-size:1rem;">{{ user_role }}</span>
+        </div>
+        <div>
+            <div class="employee-count-card">
+                <i class="fas fa-users"></i>
+                <br>
+                {{ total_employees }} Employees
+            </div>
+        </div>
+        <div style="margin-top:2rem;">
+            <span style="color:#2193b0; font-size:1.1rem;">Have a great day !</span>
+        </div>
+    </div>
+</div>
+{% endblock %}

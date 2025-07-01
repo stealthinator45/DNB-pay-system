@@ -1,0 +1,261 @@
+{% extends "base.html" %}
+{% block title %}Attendance{% endblock %}
+
+{% block content %}
+<style>
+.page-bg {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    z-index: -2;
+    background: linear-gradient(135deg, #232526 0%, #414345 100%);
+}
+.attendance-card {
+    background: #22262c;
+    border-radius: 0.8rem;
+    box-shadow: 0 2px 10px 0 rgba(0,0,0,0.13);
+    margin-top: 2.5rem;
+    padding: 1.5rem 0.8rem;
+}
+.simple-table th, .simple-table td {
+    text-align: center;
+    vertical-align: middle;
+    font-size: 1.01rem;
+}
+.simple-table th {
+    background: #232526;
+    color: #fff;
+    font-weight: 600;
+    border-bottom: 2px solid #393e46;
+}
+.simple-table tr:nth-child(even) {
+    background: #2e323c;
+}
+.simple-table tr:nth-child(odd) {
+    background: #23262e;
+}
+.simple-table tr:hover {
+    background: #393e46;
+}
+.editable-cell input[type="number"],
+.editable-cell input[type="text"],
+.editable-cell select {
+    width: 70px;
+    border: 1px solid #393e46;
+    border-radius: 5px;
+    padding: 2px 6px;
+    text-align: center;
+    background: #23262e;
+    color: #fff;
+    font-size: 1.01rem;
+}
+.editable-cell input[type="number"]:focus,
+.editable-cell input[type="text"]:focus,
+.editable-cell select:focus {
+    border: 2px solid #b02121;
+    outline: none;
+    background: #232a34;
+}
+.status-select {
+    min-width: 180px;
+    background: #23262e;
+    color: #fff;
+    border: 1.5px solid #393e46;
+    border-radius: 0.6em;
+}
+.action-btns button {
+    margin-right: 0.18em;
+    font-size: 1em;
+}
+.action-btns .btn-primary { background: #00adb5; border: none; }
+.action-btns .btn-danger { background: #b02121; border: none; }
+.attendance-title {
+    color: #b02121;
+    font-size: 2.1rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-align: center;
+    margin-bottom: 1.6rem;
+    text-shadow: 0 2px 8px #b0212133;
+}
+@media (max-width: 768px) {
+    .attendance-card { padding: 0.5rem; }
+    .simple-table th, .simple-table td { font-size: 0.97rem; }
+    .status-select { min-width: 120px; }
+    .attendance-title { font-size: 1.3rem; }
+}
+</style>
+<div class="page-bg"></div>
+<div class="container">
+    <div class="attendance-card">
+        <div class="attendance-title">
+            ATTENDANCE
+        </div>
+        <div class="table-responsive">
+            <table class="table simple-table mb-0" id="attendanceTable">
+                <thead>
+                    <tr>
+                        <th>Emp ID</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Month</th>
+                        <th style="min-width:180px;">Status</th>
+                        <th>Duty</th>
+                        <th>Annual</th>
+                        <th>Casual</th>
+                        <th>Medical</th>
+                        <th>Privilege</th>
+                        <th>Absent</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for att in attendance_records %}
+                    <tr data-att-id="{{ att.id }}">
+                        <!-- Non-editable fields -->
+                        <td>{{ att.employee.emp_id }}</td>
+                        <td>{{ att.employee.name }}</td>
+                        <td>{{ att.employee.catg_desc }}</td>
+                        <!-- Editable Month -->
+                        <td class="editable-cell">
+                            <input type="text" value="{{ att.yymm }}" class="edit-att-field" data-field="yymm">
+                        </td>
+                        <!-- Editable Status (Dropdown) -->
+                        <td class="editable-cell" style="min-width:180px;">
+                            <select class="edit-att-field status-select" data-field="emp_status">
+                                <option value="1" {% if att.employee.emp_status == 1 %}selected{% endif %} style="background:#00adb5; color:#fff;">Current Employee</option>
+                                <option value="0" {% if att.employee.emp_status == 0 %}selected{% endif %} style="background:#b02121; color:#fff;">Ex-Employee</option>
+                            </select>
+                        </td>
+                        <!-- Editable numeric fields -->
+                        <td class="editable-cell">
+                            <input type="number" min="0" max="31" value="{{ att.duty }}" class="edit-att-field" data-field="duty">
+                        </td>
+                        <td class="editable-cell">
+                            <input type="number" min="0" max="31" value="{{ att.al }}" class="edit-att-field" data-field="al">
+                        </td>
+                        <td class="editable-cell">
+                            <input type="number" min="0" max="31" value="{{ att.cl }}" class="edit-att-field" data-field="cl">
+                        </td>
+                        <td class="editable-cell">
+                            <input type="number" min="0" max="31" value="{{ att.ml }}" class="edit-att-field" data-field="ml">
+                        </td>
+                        <td class="editable-cell">
+                            <input type="number" min="0" max="31" value="{{ att.pl }}" class="edit-att-field" data-field="pl">
+                        </td>
+                        <!-- Non-editable Absent -->
+                        <td>
+                            <input type="number" value="{{ att.abs }}" readonly style="width:55px; background:#232526; color:#fff; border:1px solid #393e46; text-align:center;">
+                        </td>
+                        <!-- Actions -->
+                        <td class="action-btns">
+                            {% if user_role == 'DNB' or user_role == 'CONTRACTUAL' or user_role == 'CSR' %}
+                                {% if user.username != 'admin_dnb' and user.username != 'admin_dnb4' %}
+                                    <button class="btn btn-sm btn-primary save-att-btn" title="Save"><i class="fas fa-save"></i></button>
+                                    <button class="btn btn-sm btn-danger delete-att-btn" title="Delete"><i class="fas fa-trash"></i></button>
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="12" class="text-center" style="color:#fff;">No attendance records found</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function getDaysInMonth(yymm) {
+    if (!yymm || yymm.length < 4) return 31;
+    let year = parseInt('20' + yymm.slice(0, 2));
+    let month = parseInt(yymm.slice(2, 4));
+    if (isNaN(year) || isNaN(month) || month < 1 || month > 12) return 31;
+    return new Date(year, month, 0).getDate();
+}
+function recalcAbsent(row) {
+    let yymm = row.find('input[data-field="yymm"]').val();
+    let maxDays = getDaysInMonth(yymm);
+    let duty = parseInt(row.find('input[data-field="duty"]').val()) || 0;
+    let al = parseInt(row.find('input[data-field="al"]').val()) || 0;
+    let cl = parseInt(row.find('input[data-field="cl"]').val()) || 0;
+    let ml = parseInt(row.find('input[data-field="ml"]').val()) || 0;
+    let pl = parseInt(row.find('input[data-field="pl"]').val()) || 0;
+    let absent = maxDays - (duty + al + cl + ml + pl);
+    if (absent < 0) absent = 0;
+    row.find('input[readonly]').val(absent);
+    // Optionally update max attributes for all editable fields
+    row.find('input[type="number"]').attr('max', maxDays);
+}
+$(document).ready(function() {
+    $('.edit-att-field').on('input change', function() {
+        let row = $(this).closest('tr');
+        recalcAbsent(row);
+    });
+
+    $('.save-att-btn').on('click', function(e) {
+        e.preventDefault();
+        let row = $(this).closest('tr');
+        let attId = row.data('att-id');
+        let yymm = row.find('input[data-field="yymm"]').val();
+        let maxDays = getDaysInMonth(yymm);
+        let data = {
+            yymm: yymm,
+            emp_status: row.find('select[data-field="emp_status"]').val(),
+            duty: row.find('input[data-field="duty"]').val(),
+            al: row.find('input[data-field="al"]').val(),
+            cl: row.find('input[data-field="cl"]').val(),
+            ml: row.find('input[data-field="ml"]').val(),
+            pl: row.find('input[data-field="pl"]').val(),
+            absent: row.find('input[readonly]').val()
+        };
+        let total = 0;
+        for (let k of ['duty','al','cl','ml','pl','absent']) total += parseInt(data[k]) || 0;
+        if (total !== maxDays) {
+            alert("Total of duty, leaves, and absent must equal " + maxDays + "!");
+            return;
+        }
+        $.ajax({
+            url: '/attendance/edit/' + attId + '/',
+            method: 'POST',
+            data: data,
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            success: function(resp) {
+                alert('Saved!');
+            },
+            error: function() {
+                alert('Error saving attendance.');
+            }
+        });
+    });
+
+    $('.delete-att-btn').on('click', function(e) {
+        e.preventDefault();
+        let row = $(this).closest('tr');
+        let attId = row.data('att-id');
+        if (confirm("Delete this attendance record?")) {
+            $.ajax({
+                url: '/attendance/delete/' + attId + '/',
+                method: 'POST',
+                headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                success: function(resp) {
+                    row.remove();
+                },
+                error: function() {
+                    alert('Error deleting.');
+                }
+            });
+        }
+    });
+
+    // Initial calculation for all rows
+    $('#attendanceTable tbody tr').each(function() {
+        recalcAbsent($(this));
+    });
+});
+</script>
+{% endblock %}

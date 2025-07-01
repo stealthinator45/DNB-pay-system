@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}Reports{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <div class="card shadow mb-4">
+            <div class="card-header bg-primary text-white">
+                Monthly Attendance Report
+            </div>
+            <div class="card-body">
+                <canvas id="attendanceReportChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card shadow mb-4">
+            <div class="card-header bg-success text-white">
+                Salary Distribution
+            </div>
+            <div class="card-body">
+                <canvas id="salaryDistributionChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Embed arrays for JS -->
+{{ attendance_months|json_script:"attendance-months" }}
+{{ attendance_percentages|json_script:"attendance-percentages" }}
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Parse the safely embedded JSON arrays
+    const attendanceMonths = JSON.parse(document.getElementById('attendance-months').textContent);
+    const attendancePercentages = JSON.parse(document.getElementById('attendance-percentages').textContent);
+
+    // Attendance Report Chart
+    new Chart(document.getElementById('attendanceReportChart'), {
+        type: 'bar',
+        data: {
+            labels: attendanceMonths,
+            datasets: [{
+                label: 'Attendance Percentage',
+                data: attendancePercentages,
+                backgroundColor: 'rgba(54, 162, 235, 0.5)'
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'bottom' }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    title: { display: true, text: 'Percentage (%)' }
+                }
+            }
+        }
+    });
+
+    // Salary Distribution Chart (example data, replace with real data if available)
+    new Chart(document.getElementById('salaryDistributionChart'), {
+        type: 'pie',
+        data: {
+            labels: ['Basic', 'Allowances', 'Deductions'],
+            datasets: [{
+                data: [60, 25, 15],
+                backgroundColor: ['#4CAF50', '#FFC107', '#F44336']
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'bottom' }
+            }
+        }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Employee Enquiry{% endblock %}
+
+{% block content %}
+<div class="card shadow">
+    <div class="card-header bg-primary text-white">
+        <h4 class="mb-0">Employee Search</h4>
+    </div>
+    <div class="card-body">
+        <form method="GET" class="mb-4">
+            <div class="input-group">
+                <input type="text" name="q" class="form-control" placeholder="Search by name or ID" value="{{ query }}">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </form>
+
+        {% if search_results %}
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Emp ID</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Stipend</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for emp in search_results %}
+                    <tr>
+                        <td>{{ emp.emp_id }}</td>
+                        <td>{{ emp.name }}</td>
+                        <td>{{ emp.catg_desc }}</td>
+                        <td>₹{{ emp.stipend_rate|floatformat:0 }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="alert alert-info">No results found</div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

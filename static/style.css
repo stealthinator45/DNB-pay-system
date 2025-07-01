@@ -1,0 +1,347 @@
+:root {
+  --primary-color: #0d6efd;
+  --secondary-color: #6c757d;
+  --success-color: #198754;
+  --danger-color: #dc3545;
+  --light-color: #f8f9fa;
+  --dark-color: #212529;
+}
+
+/* Light & Dark backgrounds */
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background-color: var(--light-color);
+  color: var(--dark-color);
+  min-height: 100vh;
+  transition: background-color 0.3s, color 0.3s;
+}
+[data-bs-theme="dark"] body,
+body[data-bs-theme="dark"] {
+  background-color: #181a1b;
+  color: #f1f1f1;
+}
+
+/* Cards & Modals */
+.card, .modal-content {
+  border-radius: 1rem;
+  box-shadow: 0 2px 24px 0 rgba(0,0,0,0.15);
+  background: #fff;
+  transition: background-color 0.3s, color 0.3s;
+}
+[data-bs-theme="dark"] .card, [data-bs-theme="dark"] .modal-content {
+  background: #23272b;
+  color: #f1f1f1;
+  border-color: #444;
+}
+
+/* Navbar */
+.navbar {
+  border-radius: 0 0 1rem 1rem;
+}
+.navbar-brand img {
+  margin-right: 10px;
+}
+.navbar .nav-link {
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  transition: color 0.2s;
+}
+.navbar .nav-link.active, .navbar .nav-link:hover {
+  color: #ffd700 !important;
+}
+
+/* Table Styles */
+.table thead {
+  background: linear-gradient(90deg, #007bff, #00c6ff);
+  color: #fff;
+}
+.table-hover tbody tr:hover {
+  background-color: rgba(0, 123, 255, 0.07);
+}
+[data-bs-theme="dark"] .table-hover tbody tr:hover {
+  background-color: rgba(255,255,255,0.04);
+}
+.dataTables_wrapper {
+  margin-top: 1rem;
+}
+
+/* Buttons */
+.btn {
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+.btn-primary, .bg-primary {
+  background: linear-gradient(90deg, #007bff, #00c6ff) !important;
+  border: none;
+}
+.btn-primary:hover {
+  background: linear-gradient(90deg, #0056b3, #007bff) !important;
+}
+.btn-theme-toggle {
+  color: #fff;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  margin-right: 0.5rem;
+  transition: color 0.2s;
+}
+.btn-theme-toggle:hover {
+  color: #ffd700;
+}
+
+/* Avatars and Badges */
+.avatar-sm {
+  width: 32px; height: 32px; font-size: 14px; font-weight: bold;
+  background: #007bff; color: #fff; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.badge {
+  font-size: 0.9em;
+  font-weight: 500;
+  padding: 0.4em 0.7em;
+  border-radius: 0.6em;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 8px; background: #222; }
+::-webkit-scrollbar-thumb { background: #555; border-radius: 4px; }
+
+/* Cards and Widgets */
+.dashboard-widget {
+  padding: 1.5rem;
+  border-radius: 1rem;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(90deg, #007bff, #00c6ff);
+  color: white;
+}
+.widget-success { background: linear-gradient(90deg, #198754, #43e97b); }
+.widget-info { background: linear-gradient(90deg, #00c6ff, #0072ff); }
+
+/* Utility */
+.shadow-sm { box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075)!important; }
+.rounded-lg { border-radius: 1rem !important; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .navbar-collapse { margin-top: 1rem; }
+  .dashboard-widget { margin-bottom: 1rem; }
+  .dataTables_wrapper .dataTables_length,
+  .dataTables_wrapper .dataTables_filter { text-align: left; margin-bottom: 1rem; }
+}
+
+/* Forms */
+.form-control {
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+}
+.form-label {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+/* Alerts */
+.alert {
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+.alert-success {
+  background-color: #d1e7dd;
+  border-color: #badbcc;
+  color: #0f5132;
+}
+.alert-danger {
+  background-color: #f8d7da;
+  border-color: #f5c2c7;
+  color: #842029;
+}
+
+/* Title Bar */
+.login-titlebar {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 92px;
+    background: linear-gradient(90deg, #007bff 0%, #00c6ff 100%);
+    z-index: 10;
+    box-shadow: 0 2px 16px 0 rgba(0,0,0,0.10);
+    font-size: 2.3rem;
+    font-weight: 800;
+    letter-spacing: 2.5px;
+    color: #fff;
+    padding: 0 1.5rem;
+    border-radius: 0 0 2.2rem 2.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.sail-logo-lg {
+    height: 100px;
+    width: 100px;
+    object-fit: contain;
+    margin-right: 18px;
+    filter: drop-shadow(0 2px 8px #00c6ff88);
+}
+.login-title-lg {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 2.1rem;
+    font-weight: 800;
+    letter-spacing: 1.6px;
+    color: #fff;
+    text-shadow: 0 2px 16px #00c6ff66;
+}
+
+
+
+/* Center the login card */
+.d-flex.justify-content-center.align-items-center.min-vh-100 {
+    min-height: 100vh !important;
+    height: 100vh !important;
+}
+
+
+
+
+/* Parallax Starfield Background */
+#login-bg-canvas {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    z-index: 0;
+    background: #0a0a0f;
+    transition: background 0.5s;
+    pointer-events: none;
+}
+
+/* Glassmorphism Card */
+.login-card-glass {
+    background: rgba(255,255,255,0.88);
+    backdrop-filter: blur(16px) saturate(1.5);
+    border-radius: 2.2rem;
+    box-shadow: 0 8px 48px 0 rgba(0,0,0,0.22);
+    overflow: hidden;
+    border: 2.5px solid rgba(0, 198, 255, 0.18);
+    margin-top: 0;
+}
+[data-bs-theme="dark"] .login-card-glass {
+    background: rgba(35,39,43,0.96);
+    border: 2.5px solid rgba(0, 198, 255, 0.28);
+    color: #f1f1f1;
+}
+
+/* Gradient Button */
+.btn-gradient-primary, .bg-gradient-primary {
+    background: linear-gradient(90deg, #007bff 0%, #00c6ff 100%) !important;
+    color: #fff !important;
+    border: none;
+    font-weight: 700;
+    letter-spacing: 0.7px;
+    box-shadow: 0 2px 12px #00c6ff44;
+    transition: background 0.3s, box-shadow 0.3s;
+}
+.btn-gradient-primary:hover, .btn-gradient-primary:focus {
+    background: linear-gradient(90deg, #0056b3 0%, #007bff 100%) !important;
+    box-shadow: 0 4px 24px #00c6ff55;
+    color: #fff !important;
+}
+
+/* Form Styling */
+.form-label {
+    font-weight: 700;
+    color: #23272b;
+    letter-spacing: 0.7px;
+    font-size: 1.08em;
+}
+[data-bs-theme="dark"] .form-label {
+    color: #f1f1f1;
+}
+.form-control, .form-select {
+    font-size: 1.13em;
+    border-radius: 1.1rem;
+    padding: 0.85rem 1.2rem;
+    background: rgba(255,255,255,0.95);
+    border: 2px solid #e3e3e3;
+    box-shadow: 0 1px 3px #00c6ff11;
+    transition: border 0.2s, box-shadow 0.2s;
+}
+.form-control:focus, .form-select:focus {
+    border-color: #00c6ff;
+    box-shadow: 0 0 0 2px #00c6ff33;
+}
+[data-bs-theme="dark"] .form-control,
+[data-bs-theme="dark"] .form-select {
+    background: rgba(35,39,43,0.98);
+    color: #f1f1f1;
+    border-color: #444;
+}
+.input-group .form-control:focus {
+    box-shadow: 0 0 0 2px #00c6ff33;
+}
+.btn-outline-secondary {
+    border-radius: 0 1.1rem 1.1rem 0;
+}
+
+/* Alerts */
+.alert {
+    border-radius: 1.1rem;
+    padding: 1.1rem;
+    margin-bottom: 1.1rem;
+    font-weight: 600;
+    font-size: 1.13em;
+}
+@media (max-width: 900px) {
+    .login-titlebar { font-size: 1.5rem; height: 60px; }
+    .sail-logo-lg { height: 40px; width: 40px; }
+    .login-title-lg { font-size: 1.1rem; }
+    .login-card-glass { border-radius: 1.2rem; margin-top: 70px; }
+}
+
+
+.custom-navbar {
+    background: linear-gradient(90deg, #181a2f 0%, #0056b3 100%);
+    box-shadow: 0 2px 16px 0 #00c6ff33;
+    border-radius: 0 0 1.4rem 1.4rem;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+}
+
+.custom-tabs .custom-tab {
+    font-weight: 600;
+    font-size: 1.08em;
+    letter-spacing: 0.7px;
+    color: #fff;
+    margin: 0 0.2rem;
+    padding: 0.6rem 1.3rem;
+    border-radius: 1.3rem;
+    background: transparent;
+    transition: background 0.23s, color 0.23s, box-shadow 0.23s;
+    position: relative;
+    box-shadow: 0 0 0 transparent;
+}
+.custom-tabs .custom-tab.active,
+.custom-tabs .custom-tab:hover {
+    color: #fff;
+    background: linear-gradient(90deg, #00c6ff 0%, #007bff 100%);
+    box-shadow: 0 4px 24px #00c6ff22;
+    text-shadow: 0 2px 8px #00c6ff55;
+}
+.custom-tabs .custom-tab.active::after,
+.custom-tabs .custom-tab:hover::after {
+    content: "";
+    display: block;
+    margin: 0 auto;
+    width: 70%;
+    height: 3px;
+    border-radius: 2px;
+    background: #ffd700;
+    margin-top: 6px;
+    animation: tab-underline 0.4s cubic-bezier(.4,1.5,.5,1) both;
+}
+@keyframes tab-underline {
+    from { width: 0; opacity: 0; }
+    to { width: 70%; opacity: 1; }
+}
+.custom-tabs .custom-tab i {
+    margin-right: 0.5em;
+    font-size: 1.1em;
+    vertical-align: middle;
+}

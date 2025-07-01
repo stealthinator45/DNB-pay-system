@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Edit Employee{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-warning text-dark">
+            <h4 class="mb-0">Edit Employee - {{ employee.name }} (ID: {{ employee.emp_id }})</h4>
+        </div>
+        <div class="card-body">
+            <div class="alert alert-info mb-3">
+                Fields marked with <span style="color:red">*</span> are mandatory.
+                <br><small>Category ranges: DNB (0-6), CONTRACTUAL (7-9,13-14), CSR (10-12)</small>
+            </div>
+            <form method="post" autocomplete="off">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="mb-3">
+                        <label for="{{ field.id_for_label }}" class="form-label">
+                            {{ field.label }}{% if field.field.required %}<span style="color:red">*</span>{% endif %}
+                        </label>
+                        {{ field }}
+                        {% if field.errors %}
+                            <div class="text-danger small">{{ field.errors }}</div>
+                        {% endif %}
+                        {% if field.help_text %}
+                            <div class="form-text">{{ field.help_text }}</div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <div class="d-flex justify-content-between">
+                    <a href="{% url 'master' %}" class="btn btn-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-warning">Update Employee</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const catgInput = document.getElementById('id_catg');
+    const catgDescInput = document.getElementById('id_catg_desc');
+    function updateCategoryDesc() {
+        const value = parseInt(catgInput.value);
+        let categoryDesc = '';
+        if (value >= 0 && value <= 6) {
+            categoryDesc = 'DNB';
+        } else if ([7, 8, 9, 13, 14].includes(value)) {
+            categoryDesc = 'CONTRACTUAL';
+        } else if (value >= 10 && value <= 12) {
+            categoryDesc = 'CSR';
+        }
+        if (catgDescInput) {
+            catgDescInput.value = categoryDesc;
+        }
+    }
+    if (catgInput) {
+        catgInput.addEventListener('input', updateCategoryDesc);
+        updateCategoryDesc();
+    }
+});
+</script>
+{% endblock %}

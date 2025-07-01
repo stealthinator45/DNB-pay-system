@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+{% block title %}User Admin{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">User Admin</h4>
+            <div>
+                {% if user_role == 'SUPER' or user_role == 'ADMIN' %}
+                    <a href="{% url 'add_user' %}" class="btn btn-warning me-2">
+                        <i class="fas fa-user-plus"></i> Create Admin
+                    </a>
+                    <button class="btn btn-success" onclick="refreshData()">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                {% endif %}
+            </div>
+        </div>
+        <div class="card-body">
+            {% if user_role == 'SUPER' %}
+            <div class="alert alert-info">
+                <strong>Total Admin Users:</strong> {{ total_admins }}
+                <br><small>Manage privileged system users</small>
+            </div>
+            {% endif %}
+            
+            <div class="table-responsive">
+                <table class="table table-hover" id="adminTable">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Role</th>
+                            <th>Email</th>
+                            <th>Last Login</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for admin in admins %}
+                        <tr>
+                            <td>{{ admin.username }}</td>
+                            <td>
+                                {% if admin.is_superuser %}
+                                    <span class="badge bg-danger">Superuser</span>
+                                {% elif admin.username == 'finance_head' %}
+                                    <span class="badge bg-info">Finance Manager</span>
+                                {% elif admin.username == 'hr_manager' %}
+                                    <span class="badge bg-primary">HR Manager</span>
+                                {% else %}
+                                    <span class="badge bg-warning">Admin</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ admin.email|default:"-" }}</td>
+                            <td>{{ admin.last_login|date:"Y-m-d H:i"|default:"Never" }}</td>
+                            <td>
+                                {% if admin.id %}
+                                    {% if user_role == 'DNB' or user_role == 'CONTRACTUAL' or user_role == 'CSR' %}
+                                        {% if admin.username == 'admin_dnb' or admin.username == 'admin_dnb4' %}
+                                            <span class="text-muted">No Permission</span>
+                                        {% else %}
+                                            <div class="btn-group" role="group">
+                                                <a href="{% url 'edit_user' admin.id %}" class="btn btn-sm btn-warning">
+                                                    <i class="fas fa-edit"></i> Edit
+                                                </a>
+                                                <button class="btn btn-sm btn-danger"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#deleteModal"
+                                                        data-user-id="{{ admin.id }}"
+                                                        data-username="{{ admin.username|escapejs }}">
+                                                    Delete
+                                                </button>
+                                            </div>
+                                        {% endif %}
+                                    {% elif admin.is_superuser or admin.username == 'admin_dnb' %}
+                                        {% if user_role == 'SUPER' %}
+                                            <div class="btn-group" role="group">
+                                                <a href="{% url 'edit_user' admin.id %}" class="btn btn-sm btn-warning">
+                                                    <i class="fas fa-edit"></i> Edit
+                                                </a>
+                                                <button class="btn btn-sm btn-danger"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#deleteModal"
+                                                        data-user-id="{{ admin.id }}"
+                                                        data-username="{{ admin.username|escapejs }}">
+                                                    Delete
+                                                </button>
+                                            </div>
+                                        {% else %}
+                                            <span class="text-muted">No Permission</span>
+                                        {% endif %}
+                                    {% else %}
+                                        <div class="btn-group" role="group">
+                                            <a href="{% url 'edit_user' admin.id %}" class="btn btn-sm btn-warning">
+                                                <i class="fas fa-edit"></i> Edit
+                                            </a>
+                                            <button class="btn btn-sm btn-danger"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#deleteModal"
+                                                    data-user-id="{{ admin.id }}"
+                                                    data-username="{{ admin.username|escapejs }}">
+                                                Delete
+                                            </button>
+                                        </div>
+                                    {% endif %}
+                                {% else %}
+                                    <span class="text-danger">Invalid User</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center">No admin users found</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if user_role == 'SUPER' %}
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete <strong id="deleteName"></strong>?</p>
+                <p class="text-danger">This action cannot be undone and will delete the associated user account.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form id="deleteForm" method="post" action="">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+$(document).ready(function() {
+    $('#adminTable').DataTable({
+        responsive: true,
+        pageLength: 25,
+        order: [[0, 'asc']]
+    });
+
+    $('#deleteModal').on('show.bs.modal', function(event) {
+        const button = $(event.relatedTarget);
+        const userId = button.data('user-id');
+        const username = button.data('username');
+        
+        const modal = $(this);
+        modal.find('#deleteName').text(username);
+        modal.find('#deleteForm').attr('action', `/user-admin/delete/${userId}/`);
+    });
+});
+
+function refreshData() {
+    location.reload();
+}
+</script>
+{% endblock %}

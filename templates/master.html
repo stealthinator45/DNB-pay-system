@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Employee Master{% endblock %}
+
+{% block content %}
+<ul class="nav nav-tabs mb-4">
+    <li class="nav-item">
+        <a class="nav-link active" href="{% url 'master' %}">Employee Master</a>
+    </li>
+</ul>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h4 class="mb-0">Employee Master Data</h4>
+                <div>
+                    {% if can_create_employees %}
+                        <button class="btn btn-success me-2" onclick="refreshData()">
+                            <i class="fas fa-sync-alt"></i> Refresh Data
+                        </button>
+                        <a href="{% url 'add_employee' %}" class="btn btn-light">
+                            <i class="fas fa-plus"></i> Add New Employee
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="card-body">
+                {% if can_create_employees %}
+                <div class="alert alert-info">
+                    <strong>Total Employees:</strong> {{ total_employees }}
+                    <br><small>Click "Refresh Data" to sync with latest database changes</small>
+                </div>
+                {% endif %}
+                
+                <div class="table-responsive">
+                    <table class="table table-hover" id="employeeTable">
+                        <thead>
+                            <tr>
+                                <th>Emp ID</th>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Status</th>
+                                <th>Stipend Rate</th>
+                                <th>Bank Code</th>
+                                <th>Bank A/C No</th>
+                                <th>PAN</th>
+                                {% if can_create_employees %}
+                                    <th>Actions</th>
+                                {% endif %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for emp in employees %}
+                            <tr>
+                                <td>{{ emp.emp_id }}</td>
+                                <td>{{ emp.name }}</td>
+                                <td>{{ emp.catg_desc }}</td>
+                                <td>
+                                    {% if emp.emp_status %}
+                                        <span class="badge bg-success">Active</span>
+                                    {% else %}
+                                        <span class="badge bg-danger">Inactive</span>
+                                    {% endif %}
+                                </td>
+                                <td>₹{{ emp.stipend_rate|floatformat:0 }}</td>
+                                <td>{{ emp.bank_cd|default:"-" }}</td>
+                                <td>{{ emp.bank_acno|default:"-" }}</td>
+                                <td>{{ emp.pan|default:"-" }}</td>
+                                {% if can_create_employees %}
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <a href="{% url 'edit_employee' emp.emp_id %}" class="btn btn-sm btn-warning">
+                                            <i class="fas fa-edit"></i> Edit
+                                        </a>
+                                        <button class="btn btn-sm btn-danger" 
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#deleteModal"
+                                                data-delete-url="{% url 'delete_employee' emp.emp_id %}"
+                                                data-emp-name="{{ emp.name|escapejs }}">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </button>
+                                    </div>
+                                </td>
+                                {% endif %}
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="{% if can_create_employees %}9{% else %}8{% endif %}" class="text-center">No employees found</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if can_create_employees %}
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete <strong id="deleteName"></strong>?</p>
+                <p class="text-danger">This action cannot be undone and will delete the associated employee record.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form id="deleteForm" method="post" action="">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+$(document).ready(function() {
+    $('#employeeTable').DataTable({
+        responsive: true,
+        pageLength: 25,
+        order: [[0, 'asc']]
+    });
+
+    $('#deleteModal').on('show.bs.modal', function(event) {
+        const button = $(event.relatedTarget);
+        const deleteUrl = button.data('delete-url');
+        const empName = button.data('emp-name');
+        
+        const modal = $(this);
+        modal.find('#deleteName').text(empName);
+        modal.find('#deleteForm').attr('action', deleteUrl);
+    });
+});
+
+function refreshData() {
+    location.reload();
+}
+</script>
+{% endblock %}

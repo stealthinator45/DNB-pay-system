@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}System Checklist{% endblock %}
+
+{% block content %}
+<div class="card shadow">
+    <div class="card-header bg-primary text-white">
+        <h4 class="mb-0">System Compliance Checklist</h4>
+    </div>
+    <div class="card-body">
+        {% if user_role in 'SUPER,ADMIN' %}
+        <div class="alert alert-info mb-3">
+            <strong>Admin Access:</strong> You can manage all checklist items
+        </div>
+        {% endif %}
+        
+        <div class="row">
+            {% for item in checklist_items %}
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.item }}</h5>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="badge bg-{% if item.status %}success{% else %}danger{% endif %}">
+                                {% if item.status %}Complete{% else %}Pending{% endif %}
+                            </span>
+                            {% if item.count is not None %}
+                                <small>{{ item.count }} records</small>
+                            {% elif item.description %}
+                                <small>{{ item.description }}</small>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

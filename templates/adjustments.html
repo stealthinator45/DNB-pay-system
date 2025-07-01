@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Salary Adjustments{% endblock %}
+
+{% block content %}
+<div class="card shadow">
+    <div class="card-header bg-success text-white">
+        <h4 class="mb-0">Salary Adjustments</h4>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover" id="adjustmentsTable">
+                <thead>
+                    <tr>
+                        <th>Employee ID</th>
+                        <th>Name</th>
+                        <th>Month</th>
+                        <th>Adjustment</th>
+                        <th>Net Pay</th>
+                        {% if request.user.is_superuser %}
+                        <th>Actions</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pay in adjustments %}
+                    <tr>
+                        <td>{{ pay.employee.emp_id }}</td>
+                        <td>{{ pay.employee.name }}</td>
+                        <td>{{ pay.yymm }}</td>
+                        <td>₹{{ pay.adj }}</td>
+                        <td>₹{{ pay.npay }}</td>
+                        {% if request.user.is_superuser %}
+                        <td>
+                            <button class="btn btn-sm btn-warning">Edit</button>
+                        </td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function() {
+        $('#adjustmentsTable').DataTable({
+            order: [[2, 'desc']]
+        });
+    });
+</script>
+{% endblock %}

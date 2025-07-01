@@ -25,6 +25,10 @@ It replaces legacy systems with a user-friendly, role-based platform that automa
 - **Security**  
   Strong authentication, session management, and restricted access to sensitive operations.
 
+## 🛠️ Project Flow
+![image](https://github.com/user-attachments/assets/6a575c35-1821-46cf-8baa-9504d4100801)
+
+
 ## 🛠️ Tech Stack
 
 | Layer        | Technology                |

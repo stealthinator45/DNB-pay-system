@@ -295,4 +295,5 @@ For other use, please contact the authors.
 
 ## 🚀 Let’s Connect!
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn://linkedin.com/in/yourprofileields.io/badge/Email-grey?izing HR, one system at a time!_**
+My linkedin :- https://www.linkedin.com/in/piyush-kumar-tiwari-a6a800256/
+My mail :- tpiyush2626@gmail.com

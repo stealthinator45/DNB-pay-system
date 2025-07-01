@@ -45,100 +45,123 @@ It replaces legacy systems with a user-friendly, role-based platform that automa
 
 - Superuser Dashboard
 ![WhatsApp Image 2025-06-25 at 20 48 20_b0794268](https://github.com/user-attachments/assets/5e666620-e59c-4e8d-b130-09de5d92c7a5)
+-----------------------------
 
 
 - Superuser master table
   ![WhatsApp Image 2025-06-25 at 20 49 37_759e15f6](https://github.com/user-attachments/assets/98595d71-b5c1-4ae7-896f-2eede74323a5)
+-----------------------------
 
 
 - Add new user button 
 ![WhatsApp Image 2025-06-25 at 20 50 18_604479bc](https://github.com/user-attachments/assets/a41c2565-f22c-4549-9ae6-c2a755d947fb)
+-----------------------------
 
 
 - Category
 ![WhatsApp Image 2025-06-25 at 20 51 43_092ccd15](https://github.com/user-attachments/assets/6f05ea8f-7757-4cb7-a431-bde9aa8cea94)
+-----------------------------
 
 
 - Edit button
 ![image](https://github.com/user-attachments/assets/727f5fa4-ced7-4624-ac20-09957d821a44)
+-----------------------------
 
 
 - User admin option (superuser)
 ![WhatsApp Image 2025-06-25 at 20 52 39_35b03b8a](https://github.com/user-attachments/assets/b6b52892-a02e-4ce3-a60b-95e040316abd)
+-----------------------------
 
 
 - Attendance (superuser)
 ![WhatsApp Image 2025-06-25 at 20 53 16_daf86222](https://github.com/user-attachments/assets/bf47d6e6-3d8c-43f7-83ad-4b4956b979ca)
+-----------------------------
 
 
 - Adjustments
 ![image](https://github.com/user-attachments/assets/ae4c2040-b97f-44b6-bc50-0935d42d508d)
+-----------------------------
 
 
 - Processing
 ![WhatsApp Image 2025-06-25 at 20 54 05_245b470d](https://github.com/user-attachments/assets/3a331f88-2dbe-458c-bc3a-8e3b568e621e)
+-----------------------------
 
 
 - Reports
 ![WhatsApp Image 2025-06-25 at 20 55 06_5e03db42](https://github.com/user-attachments/assets/6d2a1abd-b58d-46e0-a5a1-f3601f255e45)
+-----------------------------
 
 
 - Enquiry
 ![image](https://github.com/user-attachments/assets/cfed40d4-f075-4146-93a9-1697fd03fadc)
+-----------------------------
 
 
 - Checklist
 ![image](https://github.com/user-attachments/assets/b499dcdb-3698-40dd-b981-a32489860fde)
+-----------------------------
 
 
 - Admin dashboard
 ![image](https://github.com/user-attachments/assets/f1637dc2-6268-44c5-97ef-e7ca2ad215aa)
+-----------------------------
 
 
 - Admin user admin view
 ![image](https://github.com/user-attachments/assets/7dc7bea6-a7ab-4dff-b2ee-887b4c006ab4)
+-----------------------------
 
 
 - DNB dashboard
 ![image](https://github.com/user-attachments/assets/612c44bf-d44c-41f5-a6f4-748152c7b4ef)
+-----------------------------
 
 
 - DNB (attendance view)
 ![image](https://github.com/user-attachments/assets/6b2eacda-9c02-4af5-a689-1f693302c870)
+-----------------------------
 
 
 - CSR login page
 ![image](https://github.com/user-attachments/assets/3a2e20e3-614d-498f-9399-9ba6b2c5dcfd)
+-----------------------------
 
 
 - CSR master view
 ![image](https://github.com/user-attachments/assets/bfbdd81a-d63c-4160-a484-df8a7e4df293)
+-----------------------------
 
 
 - CSR attendance view
 ![image](https://github.com/user-attachments/assets/e7b66ad2-9165-44d0-8d15-7f29f35f00bf)
+-----------------------------
 
 
 - CONTRACTUAL dashboard
   ![image](https://github.com/user-attachments/assets/0764aea5-8a68-498a-a7c1-8eefdb4a7c1b)
+-----------------------------
 
 
 - CONTRACTUAL attendance view
 ![image](https://github.com/user-attachments/assets/71831312-e0a8-45dc-89ca-35bda47fe326)
+-----------------------------
 
 
 - DNB master view
 ![image](https://github.com/user-attachments/assets/b8680ee1-ae6a-4394-a66a-d2f5181ea16e)
-
+-----------------------------
 
 
 - DNB attendance view
 ![image](https://github.com/user-attachments/assets/756a641a-b0ad-4f90-bf4c-63799bce8aba)
+-----------------------------
 
 
 
 - Login page (light view)
 ![image](https://github.com/user-attachments/assets/6a5b31e9-60f7-4359-9382-6c01c205b588)
+-----------------------------
 
 
 

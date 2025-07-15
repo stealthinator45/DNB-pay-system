@@ -284,9 +284,6 @@ Visit [http://127.0.0.1:8000/](http://127.0.0.1:8000/) in your browser.
 - Automated complex HR workflows and payroll calculations.
 - Enhanced data integrity and reporting for compliance.
 
-## 🏆 Acknowledgements
-
-Special thanks to the C&IT department, Sector 9 Hospital BSP, and our mentors for their invaluable guidance.
 
 ## 📢 License
 

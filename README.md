@@ -275,7 +275,7 @@ Visit [http://127.0.0.1:8000/](http://127.0.0.1:8000/) in your browser.
 
 ## 🧑‍💻 Developer
 
-- **Piyush Kumar Tiwari**
+- **Piyush Kumar Tiwari** :- https://github.com/stealthinator45
 
 ## 📚 Learnings & Impact
 
@@ -285,10 +285,14 @@ Visit [http://127.0.0.1:8000/](http://127.0.0.1:8000/) in your browser.
 - Enhanced data integrity and reporting for compliance.
 
 
-## 📢 License
+## 📢 License and Acknowledgement
 
-This project is for educational and organizational use at Sector 9 Hospital, BSP.  
-For other use, please contact the authors.
+This project was developed as part of a Vocational Training Program at Bhilai Steel Plant (BSP), under the mentorship and guidance of the C&IT Department.
+All work was carried out exclusively for educational and internal demonstration purposes.
+
+Ownership of project objectives, data, and direction remains with BSP. This repository serves as a non-commercial academic showcase and is not intended for public or production deployment.
+
+Please do not reuse or distribute this project for commercial or sensitive applications without prior written permission from the respective authorities at BSP.
 
 ## 🚀 Let’s Connect!
 
